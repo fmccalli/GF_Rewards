@@ -13,9 +13,12 @@ class App extends Component {
 
     let web3 = new Web3('https://speedy-nodes-nyc.moralis.io/c1005db9c7232a9cdd7c64c1/bsc/mainnet')
     console.log('begin fetch')
- 
+    // Chris account
+    //this.setState({account : "0x22123679e2dd6205fB6C944d230DF5Fd9632D8ca"})
     // Fetch internal transactions
-    await fetch("https://api.bscscan.com/api?module=account&action=txlistinternal&address=0x151135ea49BB5B5Adeab15F19d9Dfb696C916c37&startblock=0&endblock=99999999&sort=dsc&apikey=3EECSDZ78CUE9JQDRJXBMGT8HKAMVZYQGF")
+
+    let transactionURL = "https://api.bscscan.com/api?module=account&action=txlistinternal&address=" + this.state.account + "&startblock=0&endblock=99999999&sort=dsc&apikey=3EECSDZ78CUE9JQDRJXBMGT8HKAMVZYQGF";
+    await fetch(transactionURL)
         .then(async response => {
             const data = await response.json();
             console.log('response completed data=', data)
@@ -135,9 +138,18 @@ class App extends Component {
     }
   }
 
+  //myChangeHandler = (event) => {
+  //  this.setState({account: event.target.value});
+  //}
+
   tsDate(ts) {
     var date = new Date(ts*1000);
-    return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+    var year = date.getFullYear();
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+    var day = ("0" + date.getDate()).slice(-2);   
+    var hour = ("0" + date.getHours()).slice(-2);
+    var minute = ("0" + date.getMinutes()).slice(-2);
+    return year + "-" + month + "-" + day + " " + hour + ":" + minute;
   }
   render() {
 
@@ -152,7 +164,7 @@ class App extends Component {
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
           <a
             className="navbar-brand col-sm-3 col-md-2 mr-0"
-            href="http://marketwarlords.com"
+            href="https://ghostface.finance/"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -164,6 +176,9 @@ class App extends Component {
             </li>
           </ul>          
         </nav>
+
+      
+
         <div className="container-fluid mt-5">
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
@@ -248,6 +263,9 @@ class App extends Component {
             </main>
           </div>
         </div>
+        <div className="footer">
+          <p>This App is Powered by <a href="https:///bscscan.com" target="_blank">BscScan.com</a> APIs</p>
+        </div>        
       </div>
     );
     }
